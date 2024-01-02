@@ -43,5 +43,16 @@ export default class User {
         console.log(error);
       }
     }
+
+  async getById(id){
+    try {
+      const userExist = await UserModel.findById(id)
+      if(userExist){
+        return userExist
+      } return false
+      } catch (error) {
+        console.log(error)
+      }
+  }
     
 };

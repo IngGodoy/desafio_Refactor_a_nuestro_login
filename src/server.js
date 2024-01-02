@@ -12,8 +12,9 @@ import viewsRouter from "./routes/views.router.js"
 import session from "express-session";
 import { Server } from "socket.io";
 import {ProductModel} from "./models/product.model.js"; 
+import "./passport/strategies.local.js"
+import passport from "passport";
 
-//falta agregar rauter de views y users
 
 
 const app = express();
@@ -41,6 +42,10 @@ const mongoStoreOptions = {
 
 app.use(cookieParser()); 
 app.use(session(mongoStoreOptions));
+
+//iniciando passport en toda la app
+app.use(passport.initialize());
+app.use(passport.session());
 
 //handlebars
 app.engine('handlebars', handlebars.engine()); 

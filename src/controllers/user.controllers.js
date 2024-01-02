@@ -1,32 +1,34 @@
-import { response } from "express"; //revisar
 import UserServices from "../managers/users.manager.js";
 const userService = new UserServices();
 
 export default class UserController {
   
-  async register(req, res, next) {
-    console.log(req.body);
-    try {
-      const user = await userService.register(req.body);
-      if (user) res.redirect("/views");
-      else res.redirect("/views/register-error");
+  async register(req, res) {
+    
+    try {  
+      const user = req.body
+      if (user) {
+        console.log("regitro exioso del usuario" + user.email)
+        res.redirect("/views");
+      } else res.redirect("/views/register-error");
     } catch (error) {
-      next(error);
+      console.log(error);
     }
-  }
-  async login(req, res, next) {
+  };
+
+  async login(req, res) {
     try {
-      const { email, password } = req.body;
-      const user = await userService.login(email, password);
+      const id = req.session.passport.user
+      const user = await userService.getById(id);
       console.log("login user", user);
       if (user) {
         req.session.user = user;
-        req.session.email = email;
-        req.session.password = password;
+        req.session.email = user.email;
+        req.session.password = user.password;
         res.redirect("/views/profile");
       } else res.redirect("/views/error-login");
     } catch (error) {
-      next(error);
+      console.log(error);
     }
   }
 
