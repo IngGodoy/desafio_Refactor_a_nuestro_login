@@ -13,6 +13,7 @@ import session from "express-session";
 import { Server } from "socket.io";
 import {ProductModel} from "./models/product.model.js"; 
 import "./passport/strategies.local.js"
+import "./passport/strategies.github.js"
 import passport from "passport";
 
 

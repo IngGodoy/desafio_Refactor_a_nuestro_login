@@ -1,6 +1,7 @@
 import UserServices from "../managers/users.manager.js";
 const userService = new UserServices();
 
+
 export default class UserController {
   
   async register(req, res) {
@@ -41,7 +42,22 @@ export default class UserController {
         res.clearCookie('connect.sid');
         res.redirect("/views");
     });
-};
+  };
 
-}
+  async loginGithub(req, res) {
+    try {
+      const user = req.user;
+      console.log("login user", user);
+      if (user) {
+        req.session.user = user;
+        req.session.email = user.email;
+        req.session.password = "sinPassword";
+        res.redirect("/views/profileGithub");
+      } else res.redirect("/views/error-login");
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+};
 
