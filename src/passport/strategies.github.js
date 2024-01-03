@@ -14,6 +14,7 @@ const registerOrLogin = async (accessToken, refreshToken, profile, done) => {
   console.log("profile en passport:: ",profile);
   const email = profile._json.email;
   const user = await userService.findByEmail(email);
+  console.log("verificacion user registerOrLogin::", user)
   if (user) return done(null, user);
   const newUser = await userService.register({
    first_name: profile._json.name?profile._json.name:profile.username,
